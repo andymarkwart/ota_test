@@ -109,7 +109,11 @@ class OTAUpdater:
 
     def get_latest_version(self):
         latest_release = self.http_client.get(self.github_repo + '/releases/latest')
+        # for tags
+        #latest_release = self.http_client.get(self.github_repo + '/tags')
         version = latest_release.json()['tag_name']
+        # for tags
+        #version = latest_release.json()['name']
         latest_release.close()
         return version
 
@@ -176,7 +180,7 @@ class Response:
 
 class HttpClient:
 
-    def request(self, method, url, data=None, json=None, headers={}, stream=None):
+    def request(self, method, url, data=None, json=None, headers={'User-Agent':'Awesome-Octocat-App'}, stream=None):
         try:
             proto, dummy, host, path = url.split('/', 3)
         except ValueError:
