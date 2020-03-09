@@ -12,7 +12,7 @@ def start():
     # from main.x import project
     # project = YourProject()
     # ...
-    print("\n>>>\nProgram MAIN\nVersion: 0.0\n<<<\n")
+    print("\n>>>\nProgram MAIN\nVersion: 0.1\n<<<\n")
 
 
 def boot():
