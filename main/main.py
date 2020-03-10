@@ -2,6 +2,7 @@ import credentials as c
 import sys
 from machine import Pin
 
+
 from main.ota_updater import OTAUpdater
 o = OTAUpdater('https://github.com/andymarkwart/ota_test')
 
@@ -22,7 +23,7 @@ def start():
     # from main.x import project
     # project = YourProject()
     # ...
-    print("\n>>>\nProgram MAIN\nVersion: 0.4\n<<<\n")
+    print("\n>>>\nProgram MAIN\nVersion: 0.5.2\n<<<\n")
 
 
 def boot():
