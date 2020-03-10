@@ -2,12 +2,12 @@ import usocket
 import os
 import gc
 import machine
+import urequests as requests
 
 
 class OTAUpdater:
 
     def __init__(self, github_repo, module='', main_dir='main'):
-        self.http_client = HttpClient()
         self.github_repo = github_repo.rstrip('/').replace('https://github.com', 'https://api.github.com/repos')
         self.main_dir = main_dir
         self.module = module.rstrip('/')
@@ -108,7 +108,8 @@ class OTAUpdater:
         return '0.0'
 
     def get_latest_version(self):
-        latest_release = self.http_client.get(self.github_repo + '/releases/latest')
+        #latest_release = self.http_client.get(self.github_repo + '/releases/latest')
+        latest_release = requests.get(self.github_repo + '/releases/latest', headers={'User-Agent':'Awesome-Octocat-App'})        
         # for tags
         #latest_release = self.http_client.get(self.github_repo + '/tags')
         version = latest_release.json()['tag_name']
@@ -118,7 +119,9 @@ class OTAUpdater:
         return version
 
     def download_all_files(self, root_url, version):
-        file_list = self.http_client.get(root_url + '?ref=refs/tags/' + version)
+        #file_list = self.http_client.get(root_url + '?ref=refs/tags/' + version)
+        file_list = requests.get(root_url + '?ref=refs/tags/' + version, headers={'User-Agent':'Awesome-Octocat-App'})
+        
         for file in file_list.json():
             if file['type'] == 'file':
                 download_url = file['download_url']
@@ -135,7 +138,8 @@ class OTAUpdater:
         print('\tDownloading: ', path)
         with open(path, 'w') as outfile:
             try:
-                response = self.http_client.get(url)
+                #response = self.http_client.get(url)
+                response = requests.get(url, headers={'User-Agent':'Awesome-Octocat-App'})
                 outfile.write(response.text)
             finally:
                 response.close()
@@ -145,6 +149,7 @@ class OTAUpdater:
     def modulepath(self, path):
         return self.module + '/' + path if self.module else path
 
+"""
 
 class Response:
 
@@ -274,3 +279,5 @@ class HttpClient:
 
     def delete(self, url, **kw):
         return self.request('DELETE', url, **kw)
+
+"""
